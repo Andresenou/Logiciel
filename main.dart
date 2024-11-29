@@ -39,7 +39,6 @@ class MyApp extends StatelessWidget {
     final themeProvider = Provider.of<ThemeProvider>(context);
     return MaterialApp(
       themeMode: themeProvider.themeMode,
-      // Utilisation du thème du provider uniquement
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
       debugShowCheckedModeBanner: false,
@@ -80,11 +79,10 @@ class _ArduinoConnectionPageState extends State<ArduinoConnectionPage>
         });
       });
     });
-    _change = widget.index;
+
     _tabController = TabController(length: 4, vsync: this);
     if (_change != null) {
-      print(
-          "************L'utilisateur a cliqué sur le TP n ${widget.index! + 1}");
+
       // Attendre 3 secondes avant de remettre _currentIndex à null
       Timer(Duration(seconds: 3), () {
         setState(() {
@@ -148,35 +146,42 @@ class _ArduinoConnectionPageState extends State<ArduinoConnectionPage>
     return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          leading: etat_Bouton
-              ? SizedBox(
-
-                  child: CountdownWidget(
-                    tp: tp, // Numéro du TP
-                    durationInMinutes: durer, // Durée du TP en minutes
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              etat_Bouton
+                  ? SizedBox(
+                child: CountdownWidget(
+                  tp: tp, // Numéro du TP
+                  durationInMinutes: durer, // Durée du TP en minutes
+                ),
+              )
+                  : Text(""),
+              SizedBox(width: 10),
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.orange,
+                    width: 10,
                   ),
-                )
-              : Text(""),
-          title: Container(
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: Colors.orange,
-                width: 10,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                padding: EdgeInsets.all(8),
+                child: const Text(
+                  'INTERFACE GRAPHIQUE DE PILOTAGE DU BANC DIDATIQUE_-ENSGEP ABOMEY',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.indigo,
+                    fontSize: 25,
+                  ),
+                ),
               ),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            padding: EdgeInsets.all(8),
-            child: const Text(
-              'INTERFACE GRAPHIQUE DE PILOTAGE DU BANC DIDATIQUE_-ENSGEP ABOMEY',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.indigo,
-                fontSize: 25,
-              ),
-            ),
+
+            ],
           ),
           centerTitle: true,
           backgroundColor: Colors.white,
+
           actions: [
             ArduinoAnimatedConnection(),
           ],
